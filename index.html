@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ALMI — First Edition. A limited release.">
+  <title>ALMI — First Edition</title>
+  <style>
+    :root { --black:#080808; --ink:#f1eee8; --dim:#aaa69f; --line:#2c2c2b; }
+    * { box-sizing:border-box; }
+    html { background:var(--black); scroll-behavior:smooth; }
+    body { margin:0; min-width:320px; color:var(--ink); background:var(--black); font-family:Arial, Helvetica, sans-serif; }
+    a { color:inherit; text-decoration:none; }
+    button,input { font:inherit; }
+    .micro { margin:0; color:var(--dim); font-size:9px; font-weight:700; letter-spacing:.19em; text-transform:uppercase; }
+    .topline { min-height:34px; display:flex; align-items:center; justify-content:center; padding:8px 16px; border-bottom:1px solid var(--line); color:#cec9c0; font-size:8px; font-weight:700; letter-spacing:.18em; text-align:center; text-transform:uppercase; }
+    .nav { height:78px; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:0 4vw; border-bottom:1px solid var(--line); }
+    .nav-left,.nav-right { display:flex; gap:22px; align-items:center; font-size:9px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+    .nav-right { justify-content:flex-end; }
+    .nav a { color:#d3cec5; transition:color .2s ease; }.nav a:hover { color:#fff; }
+    .nav-brand { display:block; width:105px; filter:invert(1); }
+    .nav-brand img { display:block; width:100%; height:auto; }
+    .edge-link { padding-bottom:4px; border-bottom:1px solid var(--ink); }
+    .hero { position:relative; min-height:calc(100vh - 112px); display:flex; align-items:flex-end; overflow:hidden; border-bottom:1px solid var(--line); background:#0a0a0a; }
+    .hero-image { position:absolute; inset:0; }
+    .hero-image img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; filter:grayscale(1) contrast(1.27) brightness(.61); }
+    .hero-image::after { content:""; position:absolute; inset:0; background:linear-gradient(90deg,rgba(8,8,8,.93) 0%,rgba(8,8,8,.58) 40%,rgba(8,8,8,.1) 74%,rgba(8,8,8,.28)),linear-gradient(0deg,rgba(8,8,8,.85),transparent 42%); }
+    .hero-logo { position:absolute; z-index:1; top:8vh; right:5vw; width:min(31vw,430px); filter:invert(1); opacity:.7; }
+    .hero-content { position:relative; z-index:2; width:min(690px,86vw); padding:0 4vw clamp(50px,7vw,102px); }
+    h1,h2 { margin:0; font-family:Georgia, 'Times New Roman', serif; font-weight:400; letter-spacing:-.105em; text-transform:uppercase; }
+    h1 { margin:24px 0 30px; font-size:clamp(82px,13vw,188px); line-height:.72; }
+    .hero-meta { display:flex; align-items:flex-end; justify-content:space-between; gap:25px; max-width:600px; }
+    .hero-meta p { max-width:295px; margin:0; color:#d3cec5; font-size:13px; line-height:1.65; }
+    .button { display:inline-flex; align-items:center; justify-content:center; min-height:44px; padding:0 17px; border:1px solid #ded9d1; color:#fff; background:transparent; cursor:pointer; font-size:9px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; transition:.2s ease; white-space:nowrap; }
+    .button:hover { color:#111; background:#eee9e0; }
+    .counter { display:grid; grid-template-columns:.8fr 1.2fr; border-bottom:1px solid var(--line); }
+    .counter-title { padding:27px 4vw; border-right:1px solid var(--line); }
+    .counter-title h2 { margin-top:10px; font-size:clamp(32px,4vw,58px); line-height:.8; }
+    .timer { display:grid; grid-template-columns:repeat(4,1fr); }
+    .unit { min-height:126px; padding:25px 17px; border-right:1px solid var(--line); }.unit:last-child{border:0}
+    .number { display:block; font-family:Georgia, 'Times New Roman', serif; font-size:clamp(48px,5vw,76px); letter-spacing:-.11em; line-height:.72; }
+    .label { display:block; margin-top:19px; color:var(--dim); font-size:8px; letter-spacing:.17em; text-transform:uppercase; }
+    .statement { position:relative; min-height:720px; display:flex; align-items:center; padding:100px 4vw; overflow:hidden; border-bottom:1px solid var(--line); }
+    .statement::before { content:""; position:absolute; inset:0; opacity:.1; background-image:radial-gradient(#fff .6px,transparent .7px); background-size:5px 5px; pointer-events:none; }
+    .statement-crest { position:absolute; width:min(52vw,730px); right:-10vw; top:50%; transform:translateY(-50%); filter:invert(1); opacity:.075; }
+    .statement-inner { position:relative; z-index:1; max-width:1010px; }
+    .statement h2 { margin:25px 0; font-size:clamp(62px,10vw,154px); line-height:.76; }
+    .statement p:not(.micro) { max-width:410px; color:#c2beb6; font-size:15px; line-height:1.7; }
+    .edition { display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid var(--line); }
+    .edition-copy { min-height:580px; padding:clamp(60px,8vw,115px) 7vw; display:flex; flex-direction:column; justify-content:space-between; border-right:1px solid var(--line); }
+    .edition-copy h2 { font-size:clamp(54px,7vw,108px); line-height:.8; }
+    .edition-copy p:not(.micro) { max-width:350px; color:#c2beb6; font-size:14px; line-height:1.7; }
+    .edition-portrait { position:relative; min-height:580px; overflow:hidden; background:#0b0b0b; }
+    .edition-portrait img { width:100%; height:100%; object-fit:cover; display:block; filter:grayscale(1) contrast(1.3) brightness(.63); }
+    .edition-portrait::after { content:""; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,.06),transparent 34%,rgba(0,0,0,.38)); }
+    .edition-stamp { position:absolute; z-index:2; right:30px; bottom:28px; width:112px; filter:invert(1); opacity:.58; }
+    .index { padding:84px 4vw 90px; border-bottom:1px solid var(--line); }
+    .index-head { display:flex; justify-content:space-between; align-items:flex-end; gap:30px; margin-bottom:48px; }
+    .index h2 { font-size:clamp(55px,7vw,112px); line-height:.77; }
+    .index-list { border-top:1px solid var(--line); }
+    .index-row { display:grid; grid-template-columns:90px 1fr auto; align-items:center; gap:20px; padding:25px 0; border-bottom:1px solid var(--line); }
+    .index-no { color:var(--dim); font-size:10px; letter-spacing:.15em; }.index-name { font-family:Georgia, 'Times New Roman', serif; font-size:clamp(30px,3.5vw,54px); letter-spacing:-.07em; text-transform:uppercase; }.index-state { color:#cac5bd; font-size:9px; font-weight:700; letter-spacing:.15em; text-transform:uppercase; }
+    .access { position:relative; display:grid; grid-template-columns:1fr 1fr; overflow:hidden; border-bottom:1px solid var(--line); }
+    .access-logo { position:absolute; width:min(47vw,650px); left:-8vw; bottom:-15%; filter:invert(1); opacity:.07; pointer-events:none; }
+    .access-copy,.access-form { position:relative; z-index:1; min-height:500px; padding:clamp(60px,9vw,130px) 7vw; }
+    .access-copy { border-right:1px solid var(--line); }.access-copy h2 { margin-top:18px; font-size:clamp(60px,8vw,126px); line-height:.75; }.access-form { display:flex; flex-direction:column; justify-content:center; }.access-form > p { max-width:370px; color:#c2beb6; font-size:14px; line-height:1.7; }
+    .form { display:flex; align-items:flex-end; gap:16px; margin-top:18px; padding-bottom:12px; border-bottom:1px solid #ded9d1; }.form input { width:100%; padding:7px 0; outline:0; border:0; background:transparent; color:#fff; font-size:14px; }.form input::placeholder{color:#827e78}.form button{border:0;background:transparent;color:#fff;cursor:pointer;padding:7px 0;font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap}.form-message{min-height:19px;margin:13px 0 0;color:#d8d2c9;font-size:11px}.share-panel{display:none;margin-top:22px;padding-top:19px;border-top:1px solid var(--line)}.share-panel.is-visible{display:block}.share-panel p{margin:0 0 13px;color:#c2beb6;font-size:12px;line-height:1.55}.share-actions{display:flex;gap:8px;flex-wrap:wrap}.share-button{min-height:38px;padding:0 13px;border:1px solid #706d67;background:transparent;color:#fff;cursor:pointer;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}.share-button:hover{border-color:#fff}
+    footer { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:28px 4vw; color:#77736d; font-size:8px; letter-spacing:.16em; text-transform:uppercase; }.footer-mark{width:65px;filter:invert(1);opacity:.5}
+    @media (max-width:760px) { .nav { grid-template-columns:1fr auto; }.nav-left,.nav-right{display:none}.nav-brand{width:98px;justify-self:end}.hero{min-height:720px}.hero-logo{width:46vw;top:8vh;right:7vw}.hero-content{padding:0 7vw 53px}.hero-meta{align-items:flex-start;flex-direction:column}.counter,.edition,.access{grid-template-columns:1fr}.counter-title,.edition-copy,.access-copy{border-right:0;border-bottom:1px solid var(--line)}.counter-title{padding:26px 7vw}.unit{min-height:108px;padding:21px 10px}.statement{min-height:630px;padding:84px 7vw}.statement-crest{width:95vw;right:-32vw}.edition-copy,.access-copy,.access-form{padding:74px 7vw}.edition-copy{min-height:460px}.edition-portrait{min-height:560px}.index{padding:72px 7vw}.index-head{align-items:flex-start;flex-direction:column;margin-bottom:37px}.index-row{grid-template-columns:46px 1fr;gap:12px}.index-state{grid-column:2}.access-copy,.access-form{min-height:410px}footer{align-items:flex-start;flex-direction:column;gap:14px;padding:25px 7vw} }
+    @media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  </style>
+</head>
+<body>
+  <div class="topline">Drop 01 opens November 27, 2026 · first production run</div>
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav-left"><a href="#edition">Edition</a><a href="#world">World</a></div>
+    <a class="nav-brand" href="#top" aria-label="ALMI home"><img src="assets/almi-lockup.png" alt="ALMI"></a>
+    <div class="nav-right"><a class="edge-link" href="#access">Get access</a></div>
+  </nav>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-image"><img src="assets/models/almi-duo-avant.jpg" alt="ALMI campaign casting, shown in monochrome"><!-- Editorial casting reference; not product photography. --></div>
+      <img class="hero-logo" src="assets/almi-lockup.png" alt="" aria-hidden="true">
+      <div class="hero-content"><p class="micro">ALMI / First Edition / 2026</p><h1 id="hero-title">Built<br>to last.</h1><div class="hero-meta"><p>A limited first release built around presence, restraint, and the pieces you keep reaching for.</p><a class="button" href="#access">Request access</a></div></div>
+    </section>
+
+    <section class="counter" aria-label="Drop 01 countdown">
+      <div class="counter-title"><p class="micro">Release counter</p><h2>Drop<br>01</h2></div>
+      <div class="timer" role="timer" aria-live="polite"><div class="unit"><span class="number" id="days">30</span><span class="label">Days</span></div><div class="unit"><span class="number" id="hours">00</span><span class="label">Hours</span></div><div class="unit"><span class="number" id="minutes">00</span><span class="label">Minutes</span></div><div class="unit"><span class="number" id="seconds">00</span><span class="label">Seconds</span></div></div>
+    </section>
+
+    <section class="statement" id="world" aria-labelledby="statement-title">
+      <img class="statement-crest" src="assets/almi-crest.png" alt="" aria-hidden="true">
+      <div class="statement-inner"><p class="micro">The ALMI point of view</p><h2 id="statement-title">Nothing<br>extra.</h2><p>ALMI is a limited-release wardrobe built with a quieter kind of confidence. No manufactured hype. No fake product photography. Just a first edition, a clear point of view, and a small production run.</p></div>
+    </section>
+
+    <section class="edition" id="edition" aria-labelledby="edition-title">
+      <div class="edition-copy"><div><p class="micro">First edition / object index</p><h2 id="edition-title">The<br>release.</h2></div><p>Drop 01 is deliberately concise. Join the list for the final product reveal, release time, and first access before the public opening.</p><a class="button" href="#access">Enter the list</a></div>
+      <div class="edition-portrait"><img src="assets/models/male-avant.jpg" alt="Monochrome ALMI campaign casting portrait"><img class="edition-stamp" src="assets/almi-crest.png" alt="" aria-hidden="true"></div>
+    </section>
+
+    <section class="index" aria-labelledby="index-title">
+      <div class="index-head"><div><p class="micro">Drop 01 / selection</p><h2 id="index-title">The index.</h2></div><a class="button" href="#access">Get release access</a></div>
+      <div class="index-list"><div class="index-row"><span class="index-no">01</span><span class="index-name">Signature Tee</span><span class="index-state">Reveal at launch</span></div><div class="index-row"><span class="index-no">02</span><span class="index-name">Quiet Hoodie</span><span class="index-state">Reveal at launch</span></div></div>
+    </section>
+
+    <section class="access" id="access" aria-labelledby="access-title">
+      <img class="access-logo" src="assets/almi-lockup.png" alt="" aria-hidden="true">
+      <div class="access-copy"><p class="micro">Private release notice</p><h2 id="access-title">The list<br>opens first.</h2></div>
+      <div class="access-form"><p>Get the release time, final product details, and Drop 01 access before the public release. Supply is limited to the first production run.</p><form class="form" id="waitlist-form"><label for="email" style="position:absolute;left:-9999px">Email address</label><input id="email" name="email" type="email" placeholder="Email address" autocomplete="email" required><button type="submit">Enter →</button></form><p id="form-message" class="form-message" aria-live="polite"></p><div class="share-panel" id="share-panel"><p><strong>Your access link is ready.</strong><br>Send Drop 01 to someone who belongs in it.</p><div class="share-actions"><button class="share-button" type="button" id="share-button">Share invite</button><button class="share-button" type="button" id="copy-button">Copy link</button></div></div></div>
+    </section>
+  </main>
+  <footer><img class="footer-mark" src="assets/almi-lockup.png" alt="ALMI"><span>Drop 01 · November 27, 2026</span><span>First edition / limited production run</span></footer>
+  <script>
+    const launch = new Date('2026-11-28T05:19:32Z').getTime();
+    const ids={days:document.getElementById('days'),hours:document.getElementById('hours'),minutes:document.getElementById('minutes'),seconds:document.getElementById('seconds')};
+    function updateCountdown(){const d=Math.max(0,launch-Date.now()),day=86400000,hour=3600000,minute=60000;ids.days.textContent=String(Math.floor(d/day)).padStart(2,'0');ids.hours.textContent=String(Math.floor((d%day)/hour)).padStart(2,'0');ids.minutes.textContent=String(Math.floor((d%hour)/minute)).padStart(2,'0');ids.seconds.textContent=String(Math.floor((d%minute)/1000)).padStart(2,'0');if(!d)document.querySelector('.topline').textContent='Drop 01 is now open · first production run'}
+    updateCountdown();setInterval(updateCountdown,1000);
+    document.getElementById('waitlist-form').addEventListener('submit',e=>{e.preventDefault();const email=document.getElementById('email').value.trim();localStorage.setItem('almi-waitlist-email',email);document.getElementById('form-message').textContent='You are on the list. Your access link is ready below.';document.getElementById('share-panel').classList.add('is-visible');e.target.reset()});
+    const shareText='ALMI Drop 01 is coming November 27. I think you would like this.',shareUrl=window.location.href;
+    document.getElementById('share-button').addEventListener('click',async()=>{if(navigator.share){try{await navigator.share({title:'ALMI — Drop 01',text:shareText,url:shareUrl})}catch(_){}}else{try{await navigator.clipboard.writeText(shareUrl)}catch(_){}document.getElementById('copy-button').textContent='Link copied'}});
+    document.getElementById('copy-button').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(shareUrl)}catch(_){}document.getElementById('copy-button').textContent='Link copied'});
+  </script>
+</body>
+</html>
